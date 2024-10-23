@@ -1,9 +1,8 @@
 package com.sandeep.podstream.core.entity;
 
-import io.quarkus.panache.common.Parameters;
+import com.sandeep.podstream.model.Podcast;
 import jakarta.persistence.*;
 import lombok.*;
-import org.sandeep.model.Podcast;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -50,8 +49,4 @@ public class PodcastEntity  {
                     .createdAt(podcastEntity.getCreatedAt())
                     .updatedAt(podcastEntity.getUpdatedAt())
                     .build();
-
-    public static PodcastEntity findByCreatorIdAndTitle(UUID creatorId, String title) {
-        return find("creatorId = :creatorId and title = :title", Parameters.with("creatorId", creatorId).and("title", title)).firstResult();
-    }
 }

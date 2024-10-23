@@ -22,7 +22,7 @@ public class PremiumSubscriptionEntity  {
     @Column(columnDefinition = "uuid", name = "id", updatable = false, nullable = false)
     private UUID id;
     @Column(name = "user_id")
-    private String userId;
+    private UUID userId;
     @Column(name = "start_date")
     private LocalDate startDate;
     @Column(name = "end_date")

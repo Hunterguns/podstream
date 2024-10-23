@@ -20,8 +20,4 @@ import java.util.UUID;
 public class PodcastCategoryEntity  {
     @EmbeddedId
     private PodcastCategoriesId id;
-    @Column(name = "category_id")
-    private UUID categoryId;
-    @Column(name = "podcast_id")
-    private UUID podcastId;
 }

@@ -1,8 +1,8 @@
 package com.sandeep.podstream.core.entity;
 
+import com.sandeep.podstream.model.Episode;
 import jakarta.persistence.*;
 import lombok.*;
-import org.sandeep.model.Episode;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -50,8 +50,4 @@ public class EpisodeEntity {
             .episodeNumber(episodeEntity.getEpisodeNumber())
             .seasonNumber(episodeEntity.getSeasonNumber())
             .build();
-
-    public static List<EpisodeEntity> findAllByPodcastId(String podcastId) {
-        return EpisodeEntity.find("podcastId", podcastId).list();
-    }
 }

@@ -23,7 +23,7 @@ public class PlaybackHistoryEntity  {
     @Column(name = "user_id")
     private UUID userId;
     @Column(name = "episode_id")
-    private String episodeId;
+    private UUID episodeId;
     @Column(name = "played_at")
     private LocalDate playedAt;
     @Column(name = "progress")

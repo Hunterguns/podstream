@@ -1,8 +1,9 @@
 package com.sandeep.podstream.core.entity;
 
+import com.sandeep.podstream.core.config.Encrypt;
 import jakarta.persistence.*;
 import lombok.*;
-import org.sandeep.model.User;
+import com.sandeep.podstream.model.User;
 
 import java.util.UUID;
 import java.util.function.Function;
@@ -27,6 +28,7 @@ public class UserEntity  {
     @Column(name = "user_type")
     private String userType;
     @Column(name = "hashed_password")
+    @Convert(converter = Encrypt.class)
     private String hashedPassword;
 
     public static final Function<UserEntity, User> toUser = userEntity -> User.builder()
@@ -34,12 +36,4 @@ public class UserEntity  {
             .email(userEntity.getEmail())
             .userType(userEntity.userType)
             .build();
-
-    public static UserEntity findByEmail(String email) {
-        return find("email", email).firstResult();
-    }
-
-    public static UserEntity findByUserName(String username) {
-        return find("username", username).firstResult();
-    }
 }

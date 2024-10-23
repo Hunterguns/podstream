@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: podstream
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  graphql:
+    schema:
+      locations: classpath:graphql/
+    graphiql:
+      enabled: true
+      path: /graphiql
+    endpoint: /graphql
+    exception-handlers-enabled: true
+
+logging:
+  level:
+    root: DEBUG  # Default log level for the application
+    org.springframework: INFO  # Log level for Spring-specific logs
+    org.springframework.graphql: DEBUG  # Set log level for GraphQL to debug for more detailed output
+    graphql.execution: INFO  # Log GraphQL execution details (queries and mutations)
+#    com.sandeep.podstream: DEBUG  # Custom package logging level (useful for debugging)
+  file:
+    path: ./logs  # Log directory
+    name: spring-boot-app.log  # Log file name
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"  # Customize the console log output pattern
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"  # File log format

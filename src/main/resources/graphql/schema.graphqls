@@ -1,0 +1,144 @@
+#scalar URL
+#scalar Date
+#scalar Upload
+
+type User{
+    id: ID!
+    username: String!
+    email: String!
+    userType: String
+}
+
+type Category{
+    id: ID!
+    name: String
+    description: String
+}
+
+type Episode{
+    id: ID
+    podcastId: ID
+    title: String
+    description: String
+#    audioFile: Upload
+    fileName: String
+    mimeType: String
+    audioFileUrl: String
+    duration: String
+    publishDate: String
+    episodeNumber: Int
+    seasonNumber: Int
+}
+
+type PlaybackHistory{
+    id: ID!
+    userId: ID
+    episodeId: ID
+    playedAt: String
+    progress: Float
+}
+
+type PodcastCategory{
+    podcast: Podcast
+    category: Category
+}
+
+type Podcast{
+    id: ID!
+    creatorId: ID
+    title: String
+    description: String
+    coverImageUrl: String
+    language: String
+    explicit: Boolean
+    createdAt: String
+    updatedAt: String
+}
+
+type PodcastSubscription{
+    id: ID!
+    user: User
+    podcast: Podcast
+    subscribedAt: String
+}
+
+type PremiumSubscription{
+    id: ID!
+    userId: ID
+    startDate: String
+    endDate: String
+    subscriptionType: String
+    status: String
+    createdAt: String
+    updatedAt: String
+}
+
+type Ratings{
+    id: ID!
+    userID: ID
+    podcastID: ID
+    rating: Int
+    reviewText: String
+    createdAt: String
+    updatedAt: String
+}
+
+input UserRequest{
+    id: ID
+    username: String
+    email: String
+    usertype: String
+    password: String
+    confirmPassword: String
+    newUserName: String
+    newEmail: String
+}
+
+input PodcastRequest{
+    id: ID
+    creatorId: ID
+    title: String
+    description: String
+    coverImageUrl: String
+    language: String
+    isExplicit: Boolean
+}
+
+input EpisodeRequest{
+    id: ID
+    podcastId: ID
+    title: String
+    description: String
+#    audioFile: Upload
+    audioFileUrl: String
+    duration: String
+#    publishDate: Date
+    episodeNumber: Int
+    seasonNumber: Int
+}
+
+type LoginResponse{
+    username: String
+    accessToken: String
+    refreshToken: String
+}
+
+type Query{
+    getUser(userRequest: UserRequest): User
+    filterPodcast(podcastRequest: PodcastRequest): [Podcast]
+}
+
+type Mutation{
+    #    user
+    createUser(userRequest: UserRequest): User
+    updateUser(userRequest: UserRequest): String
+    deleteUserById(id: ID!): String
+    userLogin(userRequest: UserRequest): LoginResponse
+
+    #    podcast
+    createPodcast(podcastRequest: PodcastRequest): Podcast
+    deletePodcast(podcastId: String): String
+
+    #    episode
+    createEpisode(episodeRequest: EpisodeRequest): Episode
+}

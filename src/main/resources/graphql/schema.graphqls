@@ -3,7 +3,7 @@
 #scalar Upload
 
 type User{
-    id: ID!
+    id: ID
     username: String!
     email: String!
     userType: String
@@ -125,20 +125,20 @@ type LoginResponse{
 
 type Query{
     getUser(userRequest: UserRequest): User
-    filterPodcast(podcastRequest: PodcastRequest): [Podcast]
+#    filterPodcast(podcastRequest: PodcastRequest): [Podcast]
 }
 
 type Mutation{
     #    user
     createUser(userRequest: UserRequest): User
-    updateUser(userRequest: UserRequest): String
+#    updateUser(userRequest: UserRequest): String
     deleteUserById(id: ID!): String
-    userLogin(userRequest: UserRequest): LoginResponse
+#    userLogin(userRequest: UserRequest): LoginResponse
 
     #    podcast
-    createPodcast(podcastRequest: PodcastRequest): Podcast
-    deletePodcast(podcastId: String): String
+#    createPodcast(podcastRequest: PodcastRequest): Podcast
+#    deletePodcast(podcastId: String): String
 
     #    episode
-    createEpisode(episodeRequest: EpisodeRequest): Episode
+#    createEpisode(episodeRequest: EpisodeRequest): Episode
 }

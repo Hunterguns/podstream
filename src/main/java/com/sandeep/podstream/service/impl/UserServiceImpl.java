@@ -36,7 +36,6 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
-
         UserEntity userEntity = UserEntity.builder()
                 .username(userRequest.getUsername())
                 .email(userRequest.getEmail())

@@ -29,10 +29,10 @@ public class UserController {
         return userService.registerUser(userRequest);
     }
 
-//    @MutationMapping(value = "updateUser")
-//    public String updateUser( UserRequest userRequest) {
-//        return userService.updateUser(userRequest) ? "Successfully updated User" : "Something went wrong while updating the user. Please try again after sometime";
-//    }
+    @MutationMapping(value = "updateUser")
+    public String updateUser( UserRequest userRequest) {
+        return userService.updateUser(userRequest) ? "Successfully updated User" : "Something went wrong while updating the user. Please try again after sometime";
+    }
 
     @MutationMapping(value = "deleteUserById")
     public String deleteUserById(@Argument UUID id) {

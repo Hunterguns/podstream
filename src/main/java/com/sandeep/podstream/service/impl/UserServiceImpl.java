@@ -77,4 +77,21 @@ public class UserServiceImpl implements UserService {
         }
         return UserEntity.toUser.apply(userEntity.get());
     }
+
+    @Override
+    @Transactional
+    public boolean updateUser(UserRequest userRequest) {
+        try {
+            Optional<UserEntity> optionalUserEntity = userRepository.findById(userRequest.getId());
+            if (optionalUserEntity.isPresent()) {
+                UserEntity userEntity = optionalUserEntity.get();
+                Optional.ofNullable(userRequest.getNewUserName()).ifPresent(u -> userEntity.setUsername(userRequest.getNewUserName()));
+                Optional.ofNullable(userRequest.getNewEmail()).ifPresent(u -> userEntity.setEmail(userRequest.getNewEmail()));
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
 }

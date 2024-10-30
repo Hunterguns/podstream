@@ -14,8 +14,8 @@ public interface UserService {
     boolean deleteUserById(UUID userId);
 
     User getUser(UserRequest userRequest) throws Exception;
-//
-//    boolean updateUser(UserRequest userRequest);
-//
+
+    boolean updateUser(UserRequest userRequest);
+
 //    LoginResponse userLogin(UserRequest userRequest);
 }

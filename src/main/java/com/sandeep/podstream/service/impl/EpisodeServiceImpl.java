@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +23,11 @@ public class EpisodeServiceImpl implements EpisodeService {
 
     @Override
     public Episode createEpisode(EpisodeRequest episodeRequest) {
-        return null;
+        Duration parse = Duration.parse(episodeRequest.getDuration());
+        EpisodeEntity episodeEntity = EpisodeRequest.toEpisodeEntity.apply(episodeRequest);
+        episodeEntity.setPublishDate(LocalDate.now());
+        episodeRepository.save(episodeEntity);
+        return EpisodeEntity.toEpisode.apply(episodeEntity);
     }
 
     @Override

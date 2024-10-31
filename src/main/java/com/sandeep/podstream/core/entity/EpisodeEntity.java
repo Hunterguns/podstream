@@ -1,5 +1,6 @@
 package com.sandeep.podstream.core.entity;
 
+import com.sandeep.podstream.core.config.DurationConverter;
 import com.sandeep.podstream.model.Episode;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,6 +31,7 @@ public class EpisodeEntity {
     @Column(name = "audio_file_url")
     private String audioFileUrl;
     @Column(name = "duration")
+    @Convert(converter = DurationConverter.class)
     private long duration;
     @Column(name = "publish_date")
     private LocalDate publishDate;

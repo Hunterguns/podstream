@@ -28,6 +28,12 @@ spring:
     endpoint: /graphql
     exception-handlers-enabled: true
 
+security:
+  jwt:
+    issuer: podstream
+    secret-key: secretKey
+    expiration-time: 3600000
+
 logging:
   level:
     root: DEBUG  # Default log level for the application

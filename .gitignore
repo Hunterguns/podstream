@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Spring log files###
+spring-boot-app.log
+spring-boot-app.log.*.gz
+spring-boot-app.log.*.tmp

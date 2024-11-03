@@ -1,9 +1,11 @@
 package com.sandeep.podstream.service.impl;
 
 import com.sandeep.podstream.core.entity.UserEntity;
+import com.sandeep.podstream.model.LoginResponse;
 import com.sandeep.podstream.model.User;
 import com.sandeep.podstream.model.requests.UserRequest;
 import com.sandeep.podstream.repository.UserRepository;
+import com.sandeep.podstream.service.JwtService;
 import com.sandeep.podstream.service.UserService;
 import graphql.com.google.common.base.Strings;
 import jakarta.transaction.Transactional;
@@ -23,6 +25,7 @@ import static com.sandeep.podstream.constants.UserTypes.FREE_USER;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final JwtService jwtService;
 
     @Override
     public User registerUser(UserRequest userRequest) {
@@ -35,7 +38,6 @@ public class UserServiceImpl implements UserService {
             log.error("User with email already exists");
             return null;
         }
-
 
         UserEntity userEntity = UserEntity.builder()
                 .username(userRequest.getUsername())
@@ -63,19 +65,60 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUser(UserRequest userRequest) throws Exception {
-        Optional<UserEntity> userEntity;
-        if (Objects.nonNull(userRequest.getId())) {
-            userEntity = userRepository.findById(userRequest.getId());
-        } else if (!Strings.isNullOrEmpty(userRequest.getUsername())) {
-            userEntity = userRepository.findByUsername(userRequest.getUsername());
-        } else if (!Strings.isNullOrEmpty(userRequest.getEmail())) {
-            userEntity = userRepository.findByEmail(userRequest.getEmail());
-        } else {
-            throw new Exception("Please provide at least one of the following: userId, username, email");
-        }
+        Optional<UserEntity> userEntity = this.getUserByIdOrUsernameOrEmail(userRequest.getId(), userRequest.getNewUserName(), userRequest.getEmail());
         if(userEntity.isEmpty()){
             throw new Exception("User with provided details doesn't exists");
         }
         return UserEntity.toUser.apply(userEntity.get());
     }
+
+    @Override
+    public Optional<UserEntity> getUserByIdOrUsernameOrEmail(UUID id, String username, String email) throws Exception {
+        Optional<UserEntity> userEntity = null;
+        if (Objects.nonNull(id)) {
+            userEntity = userRepository.findById(id);
+        } else if (!Strings.isNullOrEmpty(username)) {
+            userEntity = userRepository.findByUsername(username);
+        } else if (!Strings.isNullOrEmpty(email)){
+            userEntity = userRepository.findByEmail(email);
+        } else {
+            log.error("Please provide at least one of the following: userId, username, email");
+        }
+        return userEntity;
+    }
+
+    @Override
+    @Transactional
+    public boolean updateUser(UserRequest userRequest) {
+        try {
+            Optional<UserEntity> optionalUserEntity = userRepository.findById(userRequest.getId());
+            if (optionalUserEntity.isPresent()) {
+                UserEntity userEntity = optionalUserEntity.get();
+                Optional.ofNullable(userRequest.getNewUserName()).ifPresent(u -> userEntity.setUsername(userRequest.getNewUserName()));
+                Optional.ofNullable(userRequest.getNewEmail()).ifPresent(u -> userEntity.setEmail(userRequest.getNewEmail()));
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    @Override
+    public LoginResponse userLogin(UserRequest userRequest) throws Exception {
+        Optional<UserEntity> optionalUserEntity = this.getUserByIdOrUsernameOrEmail(userRequest.getId(), userRequest.getUsername(), userRequest.getEmail());
+        if(optionalUserEntity.isEmpty()){
+            throw new Exception("User with provided details doesn't exists");
+        }
+        UserEntity userEntity = optionalUserEntity.get();
+        String jwtToken = null;
+        if(userRequest.getPassword() == userEntity.getHashedPassword()){
+            jwtToken = jwtService.generateToken(userEntity);
+        }
+        return LoginResponse.builder()
+                .accessToken(jwtToken)
+                .build();
+    }
+
+
 }

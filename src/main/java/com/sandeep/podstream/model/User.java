@@ -19,7 +19,7 @@ public class User {
     public String username;
     public String email;
     public String userType;
-    public String hashedPassword;
+    public String password;
     public LocalDateTime createdAt;
     public LocalDateTime updatedAt;
 

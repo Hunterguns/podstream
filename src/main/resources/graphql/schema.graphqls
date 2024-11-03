@@ -133,7 +133,7 @@ type Mutation{
     createUser(userRequest: UserRequest): User
     updateUser(userRequest: UserRequest): String
     deleteUserById(id: ID!): String
-#    userLogin(userRequest: UserRequest): LoginResponse
+    userLogin(userRequest: UserRequest): LoginResponse
 
     #    podcast
     createPodcast(podcastRequest: PodcastRequest): Podcast

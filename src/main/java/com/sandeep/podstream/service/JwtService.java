@@ -27,8 +27,11 @@ public class JwtService {
     @Value("${security.jwt.expiration-time}")
     private long jwtExpiry;
 
+    @Value("${security.jwt.issuer}")
+    private String jwtissuer;
+
     public String generateToken(UserEntity userEntity){
-        return generateToken(new HashMap<>(), userEntity);
+        return generateToken(Map.of("USER_ROLE", userEntity.getUserType()), userEntity);
     }
 
     public String generateToken(Map<String, Object> claims, UserEntity userEntity){
@@ -44,7 +47,7 @@ public class JwtService {
         return Jwts.builder()
                 .claims(claims)
                 .subject(userEntity.getUsername())
-                .issuer()
+                .issuer(jwtissuer)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis()+expirationTime))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @MutationMapping(value = "updateUser")
-    public String updateUser( UserRequest userRequest) {
+    public String updateUser(@Argument UserRequest userRequest) {
         return userService.updateUser(userRequest) ? "Successfully updated User" : "Something went wrong while updating the user. Please try again after sometime";
     }
 
@@ -39,9 +39,9 @@ public class UserController {
         return userService.deleteUserById(id) ? "Successfully deleted user" : "Unable to delete user. Please try again.";
     }
 
-//    @MutationMapping(value = "userLogin")
-//    public LoginResponse userLogin( UserRequest userRequest) {
-//        return userService.userLogin(userRequest);
-//    }
+    @MutationMapping(value = "userLogin")
+    public LoginResponse userLogin(@Argument UserRequest userRequest) throws Exception {
+        return userService.userLogin(userRequest);
+    }
 
 }

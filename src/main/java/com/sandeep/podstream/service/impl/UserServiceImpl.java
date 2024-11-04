@@ -112,10 +112,11 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity userEntity = optionalUserEntity.get();
         String jwtToken = null;
-        if(userRequest.getPassword() == userEntity.getHashedPassword()){
+        if(userRequest.getPassword().equals(userEntity.getHashedPassword())){
             jwtToken = jwtService.generateToken(userEntity);
         }
         return LoginResponse.builder()
+                .username(userEntity.getUsername())
                 .accessToken(jwtToken)
                 .build();
     }

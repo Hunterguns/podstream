@@ -55,9 +55,9 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public boolean deleteUserById(UUID userId) {
         try {
-        userRepository.deleteById(userId);
-        return true;
-        }catch (Exception e){
+            userRepository.deleteById(userId);
+            return true;
+        } catch (Exception e) {
             log.error("Unable to delete user, reason: ", e.getMessage());
             return false;
         }
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(UserRequest userRequest) throws Exception {
         Optional<UserEntity> userEntity = this.getUserByIdOrUsernameOrEmail(userRequest.getId(), userRequest.getNewUserName(), userRequest.getEmail());
-        if(userEntity.isEmpty()){
+        if (userEntity.isEmpty()) {
             throw new Exception("User with provided details doesn't exists");
         }
         return UserEntity.toUser.apply(userEntity.get());
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
             userEntity = userRepository.findById(id);
         } else if (!Strings.isNullOrEmpty(username)) {
             userEntity = userRepository.findByUsername(username);
-        } else if (!Strings.isNullOrEmpty(email)){
+        } else if (!Strings.isNullOrEmpty(email)) {
             userEntity = userRepository.findByEmail(email);
         } else {
             log.error("Please provide at least one of the following: userId, username, email");
@@ -107,12 +107,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public LoginResponse userLogin(UserRequest userRequest) throws Exception {
         Optional<UserEntity> optionalUserEntity = this.getUserByIdOrUsernameOrEmail(userRequest.getId(), userRequest.getUsername(), userRequest.getEmail());
-        if(optionalUserEntity.isEmpty()){
+        if (optionalUserEntity.isEmpty()) {
             throw new Exception("User with provided details doesn't exists");
         }
         UserEntity userEntity = optionalUserEntity.get();
         String jwtToken = null;
-        if(userRequest.getPassword().equals(userEntity.getHashedPassword())){
+        if (userRequest.getPassword().equals(userEntity.getHashedPassword())) {
             jwtToken = jwtService.generateToken(userEntity);
         }
         return LoginResponse.builder()

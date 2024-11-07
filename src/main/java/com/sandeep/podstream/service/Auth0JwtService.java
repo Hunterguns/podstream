@@ -4,17 +4,17 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sandeep.podstream.core.entity.UserEntity;
-import io.micrometer.core.ipc.http.HttpSender;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
 import java.util.Date;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -38,12 +38,12 @@ public class Auth0JwtService {
     private static Algorithm algorithm;
     public static JWTVerifier jwtVerifier;
 
-    public static void initialize(){
+    public static void initialize() {
         algorithm = Algorithm.HMAC256(secret);
         jwtVerifier = JWT.require(algorithm).withIssuer(issuer).build();
     }
 
-    public String generateJwtToken(UserEntity userEntity){
+    public String generateJwtToken(UserEntity userEntity) {
         return JWT.create()
                 .withIssuer(issuer)
                 .withSubject(subject)
@@ -55,12 +55,26 @@ public class Auth0JwtService {
     }
 
     public DecodedJWT verifyJwtToken(String jwtToken) throws AuthenticationException {
-        try{
+        try {
             DecodedJWT decodedJWT = jwtVerifier.verify(jwtToken);
             return decodedJWT;
         } catch (JWTVerificationException e) {
             log.error("Error while verifying jwt token");
             throw new AuthenticationException("JWT Token is invalid.");
         }
+    }
+
+    public boolean isJwtExpired(DecodedJWT decodedJWT) {
+        Date expiresAt = decodedJWT.getExpiresAt();
+        return expiresAt.getTime() < System.currentTimeMillis();
+    }
+
+    public Map<String, Claim> getAllJwtClaims(DecodedJWT decodedJWT) {
+        return decodedJWT.getClaims();
+    }
+
+    public String getJwtClaimValue(DecodedJWT decodedJWT, String claimName) {
+        Claim claim = decodedJWT.getClaim(claimName);
+        return claim != null ? claim.asString() : null;
     }
 }

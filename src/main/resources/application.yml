@@ -31,8 +31,9 @@ spring:
 security:
   jwt:
     issuer: podstream
-    secret-key: 662C35DBEEF29ECB2765F0C015AF638F001A7A433BCFDAE46332C428E24AEABB
+    secret-key: 668D54CD725428A4752BFB416AAA7
     expiration-time: 3600000
+    subject: "Podstream User Token"
 
   encryption:
     key: 82yea8SCw1jIp5mkLwfmSuTmbMSGHK2P

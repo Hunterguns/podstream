@@ -7,8 +7,10 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sandeep.podstream.core.entity.UserEntity;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,23 +25,24 @@ import java.util.UUID;
 public class Auth0JwtService {
 
     @Value("${security.jwt.issuer}")
-    private static String issuer;
+    private String issuer;
 
     @Value("${security.jwt.secret-key}")
-    private static String secret;
+    private String secretKey;
 
     @Value("${security.jwt.expiration-time}")
-    private static String expirationTimeInMillis;
+    private long expirationTimeInMillis;
 
-    @Value("${security.jwt.subject")
-    private static String subject;
+    @Value("${security.jwt.subject}")
+    private String subject;
 
 
     private static Algorithm algorithm;
     public static JWTVerifier jwtVerifier;
 
-    public static void initialize() {
-        algorithm = Algorithm.HMAC256(secret);
+    @PostConstruct
+    public void initialize() {
+        algorithm = Algorithm.HMAC256(secretKey);
         jwtVerifier = JWT.require(algorithm).withIssuer(issuer).build();
     }
 
@@ -48,6 +51,7 @@ public class Auth0JwtService {
                 .withIssuer(issuer)
                 .withSubject(subject)
                 .withClaim("user_type", userEntity.getUserType())
+                .withClaim("username", userEntity.getUsername())
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(new Date(System.currentTimeMillis() + expirationTimeInMillis))
                 .withJWTId(UUID.randomUUID().toString())
@@ -56,8 +60,7 @@ public class Auth0JwtService {
 
     public DecodedJWT verifyJwtToken(String jwtToken) throws AuthenticationException {
         try {
-            DecodedJWT decodedJWT = jwtVerifier.verify(jwtToken);
-            return decodedJWT;
+            return jwtVerifier.verify(jwtToken);
         } catch (JWTVerificationException e) {
             log.error("Error while verifying jwt token");
             throw new AuthenticationException("JWT Token is invalid.");

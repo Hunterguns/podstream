@@ -5,7 +5,7 @@ import com.sandeep.podstream.model.LoginResponse;
 import com.sandeep.podstream.model.User;
 import com.sandeep.podstream.model.requests.UserRequest;
 import com.sandeep.podstream.repository.UserRepository;
-import com.sandeep.podstream.service.JwtService;
+import com.sandeep.podstream.service.Auth0JwtService;
 import com.sandeep.podstream.service.UserService;
 import graphql.com.google.common.base.Strings;
 import jakarta.transaction.Transactional;
@@ -25,7 +25,7 @@ import static com.sandeep.podstream.constants.UserTypes.FREE_USER;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final JwtService jwtService;
+    private final Auth0JwtService auth0JwtService;
 
     @Override
     public User registerUser(UserRequest userRequest) {
@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = optionalUserEntity.get();
         String jwtToken = null;
         if (userRequest.getPassword().equals(userEntity.getHashedPassword())) {
-            jwtToken = jwtService.generateToken(userEntity);
+            jwtToken = auth0JwtService.generateJwtToken(userEntity);
         }
         return LoginResponse.builder()
                 .username(userEntity.getUsername())

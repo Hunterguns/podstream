@@ -33,7 +33,7 @@ security:
     issuer: podstream
     secret-key: 668D54CD725428A4752BFB416AAA7
     expiration-time: 3600000
-    subject: "Podstream User Token"
+    subject: Podstream User Token
 
   encryption:
     key: 82yea8SCw1jIp5mkLwfmSuTmbMSGHK2P

@@ -53,3 +53,9 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"                   # Customize the console log output pattern
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"       # File log format
+
+aws:
+  accessKey: awslocal
+  secretKey: awslocal
+  s3:
+    bucket-name: podcast-audio-bucket

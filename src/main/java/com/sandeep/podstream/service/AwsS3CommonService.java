@@ -17,4 +17,8 @@ abstract public class AwsS3CommonService {
     protected DeleteObjectRequest buildDeleteObjectRequest(String bucketName, String objectKey){
         return new DeleteObjectRequest(bucketName, objectKey);
     }
+
+    protected ListBucketsPaginatedRequest buildListBucketsPaginatedRequest(){
+        return new ListBucketsPaginatedRequest();
+    }
 }

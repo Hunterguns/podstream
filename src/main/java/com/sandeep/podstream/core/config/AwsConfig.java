@@ -21,14 +21,20 @@ public class AwsConfig {
     @Value("${aws.secretKey}")
     private String secretKey;
 
+    @Value("${aws.s3Endpoint}")
+    private String s3Endpoint;
+
+    @Value("${aws.region}")
+    private String region;
 
     @Bean
     public AmazonS3 getAmazonS3Client(){
         AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
-        AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration("http://localhost:4566", Regions.US_EAST_1.toString());
+        AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(s3Endpoint, region);
         return AmazonS3ClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withEndpointConfiguration(endpointConfiguration)
+                .enablePathStyleAccess()
                 .build();
     }
 }

@@ -57,5 +57,7 @@ logging:
 aws:
   accessKey: awslocal
   secretKey: awslocal
+  s3Endpoint: http://localhost:4566
+  region: us-east-1
   s3:
     bucket-name: podcast-audio-bucket

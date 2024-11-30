@@ -18,7 +18,7 @@ import java.io.InputStream;
 @Slf4j
 public class AwsS3ServiceImpl extends AwsS3CommonService implements AwsS3Service {
 
-    @Value("aws.s3.bucket-name")
+    @Value("${aws.s3.bucket-name}")
     private String bucketName;
     @Autowired
     AmazonS3 s3Client;

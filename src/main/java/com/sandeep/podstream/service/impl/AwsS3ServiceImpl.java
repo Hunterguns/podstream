@@ -24,7 +24,7 @@ public class AwsS3ServiceImpl extends AwsS3CommonService implements AwsS3Service
     AmazonS3 s3Client;
 
     @Override
-    public ListBucketsPaginatedResult listBuckets(){
+    public ListBucketsPaginatedResult listBuckets() {
         return s3Client.listBuckets(buildListBucketsPaginatedRequest());
     }
 
@@ -37,7 +37,7 @@ public class AwsS3ServiceImpl extends AwsS3CommonService implements AwsS3Service
     }
 
     @Override
-    public S3ObjectInputStream downloadFile(String objectKey){
+    public S3ObjectInputStream downloadFile(String objectKey) {
         return s3Client.getObject(buildGetObjectRequest(bucketName, objectKey)).getObjectContent();
     }
 }

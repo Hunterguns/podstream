@@ -46,7 +46,7 @@ logging:
     org.springframework: INFO                                     # Log level for Spring-specific logs
     org.springframework.graphql: DEBUG                            # Set log level for GraphQL to debug for more detailed output
     graphql.execution: INFO                                       # Log GraphQL execution details (queries and mutations)
-#    com.sandeep.podstream: DEBUG                                 # Custom package logging level (useful for debugging)
+  #    com.sandeep.podstream: DEBUG                                 # Custom package logging level (useful for debugging)
   file:
     path: ./logs                                                  # Log directory
     name: spring-boot-app.log                                     # Log file name

@@ -15,7 +15,7 @@ import java.util.function.Function;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 @Builder
-public class PodcastEntity  {
+public class PodcastEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "uuid", name = "id", updatable = false, nullable = false)

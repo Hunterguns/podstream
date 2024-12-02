@@ -20,7 +20,7 @@ type Episode{
     podcastId: ID
     title: String
     description: String
-#    audioFile: Upload
+    #    audioFile: Upload
     fileName: String
     mimeType: String
     audioFileUrl: String
@@ -109,10 +109,10 @@ input EpisodeRequest{
     podcastId: ID
     title: String
     description: String
-#    audioFile: Upload
+    #    audioFile: Upload
     audioFileUrl: String
     duration: String
-#    publishDate: Date
+    #    publishDate: Date
     episodeNumber: Int
     seasonNumber: Int
 }
@@ -125,7 +125,7 @@ type LoginResponse{
 
 type Query{
     getUser(userRequest: UserRequest): User
-#    filterPodcast(podcastRequest: PodcastRequest): [Podcast]
+    #    filterPodcast(podcastRequest: PodcastRequest): [Podcast]
 }
 
 type Mutation{

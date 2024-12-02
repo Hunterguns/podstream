@@ -5,11 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 import static com.sandeep.podstream.constants.ApplicationConstants.AES_ALGORITHM;
@@ -26,7 +24,7 @@ public class EncryptionUtils {
     @Value("${security.encryption.algo}")
     private String encryptionAlgo;
 
-    public String encrypt(String value){
+    public String encrypt(String value) {
         try {
             IvParameterSpec ivParameterSpec = new IvParameterSpec(encryptionInitVector.getBytes(StandardCharsets.UTF_8));
             SecretKeySpec secretKeySpec = new SecretKeySpec(encryptionKey.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
@@ -42,7 +40,7 @@ public class EncryptionUtils {
         }
     }
 
-    public String decrypt(String encryptedData){
+    public String decrypt(String encryptedData) {
         try {
             IvParameterSpec ivParameterSpec = new IvParameterSpec(encryptionInitVector.getBytes(StandardCharsets.UTF_8));
             SecretKeySpec secretKeySpec = new SecretKeySpec(encryptionKey.getBytes(StandardCharsets.UTF_8), AES_ALGORITHM);
@@ -52,7 +50,7 @@ public class EncryptionUtils {
 
             byte[] decrypted = cipher.doFinal(Base64.getDecoder().decode(encryptedData));
             return new String(decrypted, StandardCharsets.UTF_8);
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("Error while decrypting data: ", e.getMessage());
             throw new RuntimeException(e);
         }

@@ -4,8 +4,8 @@ import com.amazonaws.util.StringUtils;
 
 public class ApplicationUtils {
 
-    public static String generateFileNameWithTimeStamp(String filename, String timestamp){
-        if(StringUtils.isNullOrEmpty(filename) || !filename.contains(".")){
+    public static String generateFileNameWithTimeStamp(String filename, String timestamp) {
+        if (StringUtils.isNullOrEmpty(filename) || !filename.contains(".")) {
             return filename + "_" + timestamp;
         }
         int dotIndex = filename.lastIndexOf(".");

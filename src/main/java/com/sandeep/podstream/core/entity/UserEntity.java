@@ -1,9 +1,9 @@
 package com.sandeep.podstream.core.entity;
 
 import com.sandeep.podstream.core.config.Encrypt;
+import com.sandeep.podstream.model.User;
 import jakarta.persistence.*;
 import lombok.*;
-import com.sandeep.podstream.model.User;
 
 import java.util.UUID;
 import java.util.function.Function;
@@ -16,7 +16,7 @@ import java.util.function.Function;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserEntity  {
+public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(columnDefinition = "uuid", name = "id", updatable = false, nullable = false)

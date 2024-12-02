@@ -31,19 +31,33 @@ spring:
 security:
   jwt:
     issuer: podstream
-    secret-key: secretKey
+    secret-key: 668D54CD725428A4752BFB416AAA7
     expiration-time: 3600000
+    subject: Podstream User Token
+
+  encryption:
+    key: 82yea8SCw1jIp5mkLwfmSuTmbMSGHK2P
+    initVector: a12af21d2a753f18
+    algo: AES/CBC/PKCS5PADDING
 
 logging:
   level:
-    root: DEBUG  # Default log level for the application
-    org.springframework: INFO  # Log level for Spring-specific logs
-    org.springframework.graphql: DEBUG  # Set log level for GraphQL to debug for more detailed output
-    graphql.execution: INFO  # Log GraphQL execution details (queries and mutations)
-#    com.sandeep.podstream: DEBUG  # Custom package logging level (useful for debugging)
+    root: DEBUG                                                   # Default log level for the application
+    org.springframework: INFO                                     # Log level for Spring-specific logs
+    org.springframework.graphql: DEBUG                            # Set log level for GraphQL to debug for more detailed output
+    graphql.execution: INFO                                       # Log GraphQL execution details (queries and mutations)
+  #    com.sandeep.podstream: DEBUG                                 # Custom package logging level (useful for debugging)
   file:
-    path: ./logs  # Log directory
-    name: spring-boot-app.log  # Log file name
+    path: ./logs                                                  # Log directory
+    name: spring-boot-app.log                                     # Log file name
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"  # Customize the console log output pattern
-    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"  # File log format
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"                   # Customize the console log output pattern
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"       # File log format
+
+aws:
+  accessKey: awslocal
+  secretKey: awslocal
+  s3Endpoint: http://localhost:4566
+  region: us-east-1
+  s3:
+    bucket-name: podcast-audio-bucket

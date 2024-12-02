@@ -53,13 +53,13 @@ public class PodcastServiceImpl implements PodcastService {
         CriteriaQuery<PodcastEntity> criteriaQuery = criteriaBuilder.createQuery(PodcastEntity.class);
         Root<PodcastEntity> podcastEntityRoot = criteriaQuery.from(PodcastEntity.class);
         List<Predicate> predicates = new ArrayList<>();
-        if(!Strings.isNullOrEmpty(podcastRequest.getTitle())){
+        if (!Strings.isNullOrEmpty(podcastRequest.getTitle())) {
             predicates.add(criteriaBuilder.equal(podcastEntityRoot.get("title"), podcastRequest.getTitle()));
         }
-        if(podcastRequest.getCreatorId()!=null){
+        if (podcastRequest.getCreatorId() != null) {
             predicates.add(criteriaBuilder.equal(podcastEntityRoot.get("creatorId"), podcastRequest.getCreatorId()));
         }
-        if(!Strings.isNullOrEmpty(podcastRequest.getLanguage())){
+        if (!Strings.isNullOrEmpty(podcastRequest.getLanguage())) {
             predicates.add(criteriaBuilder.equal(podcastEntityRoot.get("language"), podcastRequest.getLanguage()));
         }
 
@@ -100,7 +100,7 @@ public class PodcastServiceImpl implements PodcastService {
     public Boolean deletePodcastById(UUID podcastId) throws Exception {
         //create this im episodeservice
         Optional<PodcastEntity> podcastEntity = podcastRepository.findById(podcastId);
-        if(podcastEntity.isEmpty()){
+        if (podcastEntity.isEmpty()) {
             throw new Exception("Podcast doesn't exists");
         }
         List<EpisodeEntity> episodeEntities = episodeService.getAllEpisodeByPodcastId(podcastId);

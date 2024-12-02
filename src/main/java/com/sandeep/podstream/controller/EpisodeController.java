@@ -4,8 +4,6 @@ import com.sandeep.podstream.model.Episode;
 import com.sandeep.podstream.model.requests.EpisodeRequest;
 import com.sandeep.podstream.service.EpisodeService;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.annotations.Source;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;

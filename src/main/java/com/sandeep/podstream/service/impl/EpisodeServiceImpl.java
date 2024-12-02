@@ -31,7 +31,7 @@ public class EpisodeServiceImpl implements EpisodeService {
     }
 
     @Override
-    public List<EpisodeEntity> getAllEpisodeByPodcastId(UUID podcastId){
+    public List<EpisodeEntity> getAllEpisodeByPodcastId(UUID podcastId) {
         return episodeRepository.findAllByPodcastId(podcastId);
     }
 }

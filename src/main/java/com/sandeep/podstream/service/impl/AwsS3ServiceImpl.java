@@ -3,7 +3,7 @@ package com.sandeep.podstream.service.impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ListBucketsPaginatedResult;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.S3Object;
 import com.sandeep.podstream.service.AwsS3CommonService;
 import com.sandeep.podstream.service.AwsS3Service;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,22 @@ public class AwsS3ServiceImpl extends AwsS3CommonService implements AwsS3Service
     }
 
     @Override
-    public S3ObjectInputStream downloadFile(String objectKey) {
-        return s3Client.getObject(buildGetObjectRequest(bucketName, objectKey)).getObjectContent();
+    public S3Object downloadFile(String objectKey) {
+        return s3Client.getObject(buildGetObjectRequest(bucketName, objectKey));
+    }
+
+    @Override
+    public String getPresignedUrl(String objectKey) {
+        return s3Client.generatePresignedUrl(generatePresignedUrlRequest(bucketName, objectKey)).toString();
+    }
+
+    @Override
+    public void deleteFile(String objectKey) {
+        s3Client.deleteObject(buildDeleteObjectRequest(bucketName, objectKey));
+    }
+
+    @Override
+    public ObjectMetadata getObjectMetaData(String objectKey) {
+        return s3Client.getObjectMetadata(buildGetObjectMetadataRequest(bucketName, objectKey));
     }
 }

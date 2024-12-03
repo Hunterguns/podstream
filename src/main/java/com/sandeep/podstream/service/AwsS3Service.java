@@ -1,7 +1,8 @@
 package com.sandeep.podstream.service;
 
 import com.amazonaws.services.s3.model.ListBucketsPaginatedResult;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.S3Object;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,5 +12,11 @@ public interface AwsS3Service {
 
     void uploadFile(String keyName, long contentLength, String contentType, InputStream inputStream) throws IOException;
 
-    S3ObjectInputStream downloadFile(String objectKey);
+    S3Object downloadFile(String objectKey);
+
+    String getPresignedUrl(String objectKey);
+
+    void deleteFile(String objectKey);
+
+    ObjectMetadata getObjectMetaData(String objectKey);
 }

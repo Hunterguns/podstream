@@ -48,7 +48,7 @@ public class Auth0JwtService {
     public String generateJwtToken(UserEntity userEntity) {
         return JWT.create()
                 .withIssuer(issuer)
-                .withSubject(subject)
+                .withSubject(String.valueOf(userEntity.getId()))
                 .withClaim("user_type", userEntity.getUserType())
                 .withClaim("username", userEntity.getUsername())
                 .withIssuedAt(new Date(System.currentTimeMillis()))
@@ -71,12 +71,19 @@ public class Auth0JwtService {
         return expiresAt.getTime() < System.currentTimeMillis();
     }
 
-    public Map<String, Claim> getAllJwtClaims(DecodedJWT decodedJWT) {
+    public Map<String, Claim> getAllJwtClaims(String token) {
+        DecodedJWT decodedJWT = jwtVerifier.verify(token);
         return decodedJWT.getClaims();
     }
 
-    public String getJwtClaimValue(DecodedJWT decodedJWT, String claimName) {
+    public String getJwtClaimValue(String token, String claimName) {
+        DecodedJWT decodedJWT = jwtVerifier.verify(token);
         Claim claim = decodedJWT.getClaim(claimName);
         return claim != null ? claim.asString() : null;
+    }
+
+    public boolean isTokenValid(String jwtToken) throws AuthenticationException {
+        DecodedJWT decodedJWT = verifyJwtToken(jwtToken);
+        return isJwtExpired(decodedJWT);
     }
 }

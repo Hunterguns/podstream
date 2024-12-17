@@ -84,6 +84,6 @@ public class Auth0JwtService {
 
     public boolean isTokenValid(String jwtToken) throws AuthenticationException {
         DecodedJWT decodedJWT = verifyJwtToken(jwtToken);
-        return isJwtExpired(decodedJWT);
+        return !isJwtExpired(decodedJWT);
     }
 }

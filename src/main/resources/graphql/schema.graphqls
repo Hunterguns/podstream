@@ -125,15 +125,15 @@ type LoginResponse{
 
 type Query{
     getUser(userRequest: UserRequest): User
+    userLogin(userRequest: UserRequest): LoginResponse
     #    filterPodcast(podcastRequest: PodcastRequest): [Podcast]
 }
 
 type Mutation{
     #    user
-    createUser(userRequest: UserRequest): User
+    userSignup(userRequest: UserRequest): User
     updateUser(userRequest: UserRequest): String
     deleteUserById(id: ID!): String
-    userLogin(userRequest: UserRequest): LoginResponse
 
     #    podcast
     createPodcast(podcastRequest: PodcastRequest): Podcast

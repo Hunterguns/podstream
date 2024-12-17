@@ -22,7 +22,7 @@ public class UserController {
         return userService.getUser(userRequest);
     }
 
-    @MutationMapping(value = "createUser")
+    @MutationMapping(value = "userSignup")
     public User createUser(@Argument("userRequest") UserRequest userRequest) {
         return userService.registerUser(userRequest);
     }
@@ -37,7 +37,7 @@ public class UserController {
         return userService.deleteUserById(id) ? "Successfully deleted user" : "Unable to delete user. Please try again.";
     }
 
-    @MutationMapping(value = "userLogin")
+    @QueryMapping(value = "userLogin")
     public LoginResponse userLogin(@Argument UserRequest userRequest) throws Exception {
         return userService.userLogin(userRequest);
     }

@@ -7,7 +7,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -22,9 +21,16 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     Auth0JwtService jwtService;
+    AuthenticationException authenticationException;
 
     public JwtAuthenticationFilter(Auth0JwtService jwtService) {
-        this.jwtService=jwtService;
+        this.jwtService = jwtService;
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.equals("/graphql");
     }
 
     @Override
@@ -36,16 +42,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7);
-        String username = jwtService.getJwtClaimValue(token, "username");
         try {
             if (SecurityContextHolder.getContext().getAuthentication() == null && jwtService.isTokenValid(token)) {
+                String username = jwtService.getJwtClaimValue(token, "username");
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, null);
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         } catch (AuthenticationException e) {
             log.error("Error while authenticating user session");
-            throw new RuntimeException(e);
+            throw new org.springframework.security.core.AuthenticationException("Authentication failed, unauthorized access") {
+            };
         }
         filterChain.doFilter(request, response);
     }
